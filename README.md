@@ -108,3 +108,27 @@ The smoke test opens the game in three setups: phone portrait, desktop, and no S
 - Midgame ads: from level 3 on, every second "Next" calls `requestAd('midgame')`. Sound is muted during the ad.
 - Saves: `SDK.data.getItem/setItem` first, then `localStorage`.
 - Mute: follows `game.settings.muteAudio`, and listens to `addSettingsChangeListener`.
+
+## 小红书小工具版（中文）
+
+同一套源码再出一个中文离线包，发布到小红书小工具。CrazyGames 版（`dist/index.html`）不受影响。
+
+```bash
+npm run build:xhs     # = bash scripts/build.sh && python3 scripts/build_xhs.py → dist/xhs/ 和 dist/TriangleZoo_xhs.zip
+npm run test:xhs      # 用模拟的 xhs.miniTool 玩 3 关、检查存档恢复和发笔记，截图在 build/
+npm run media:xhs     # 上架素材：media/xhs_cover.jpg（3:4）、media/xhs_icon.jpg（512×512）
+```
+
+`scripts/build_xhs.py` 在 `build/index.html`（CrazyGames 版）的基础上做这些事：
+
+- 界面和 22 只动物全部换成中文，名字叫「角角入位」（改 `TITLE` / `SUB` 两个常量即可换名）
+- 去掉 CrazyGames SDK：没有广告和 gameplay 事件，`cg*` 调用点保留为空函数
+- 存档改用 `xhs.miniTool.setStorage/getStorage`（客户端 9.46+，`src/xhs/platform.js`），不再使用 localStorage；低版本客户端里进度只保留到关闭为止
+- 顶部让出宿主按钮（`getWindowInfo`，接口不存在时只按安全区处理），安全区由 `src/xhs/compat.js` 量好写进 `--sat/--sab`
+- 脚本全部外置（容器禁止内联脚本），语法控制在 ES2017（Chrome 61）
+- CSS 加 Chrome 61 基线：`inset` 展开、flex `gap` 的 margin 回退（`.no-flex-gap`）、`grid-gap`、`aspect-ratio` 的 JS 回退（`.no-ar`）
+- 音效和背景音乐移到 `js/audio-data.js`，菜单出来后再加载；容器不允许 `data:` 音频，背景音乐改用 WebAudio 播放，并换成单声道 80 kbps（`src/xhs/music.mp3`）让单条 base64 小于 1 MiB
+- 「我的动物园」右上角有「发笔记」：把收集进度画成 3:4 的图，调 `postNote` 唤起图文发布页（容器没有这个接口时按钮不显示）
+- 最后跑合规审计（禁用 API、ES2018+ 语法、外链、文件类型、base64 体积），有错误就退出，不出 zip
+
+上传和送审用小红书的 `redapp` CLI：先 `redapp dev --dir dist/xhs` 本地模拟器看一遍，再上传 `dist/TriangleZoo_xhs.zip`，依次在**创服平台模拟器**、**Android 真机**、**iOS 真机**扫码验证。普通浏览器里能跑不代表容器里也没问题。
