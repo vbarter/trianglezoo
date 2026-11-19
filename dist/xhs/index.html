@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="description" content="角角入位：拖动彩色三角拼块填满动物剪影，拼好它就会眨眼蹦跳，收集全部 22 只小动物。">
+<meta name="theme-color" content="#D6ECEB">
+<title>角角入位</title>
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<div id="app">
+<section id="menu" class="screen">
+  <div class="head">
+    <div class="txt">
+      <h1 id="tTitle">角角入位</h1>
+      <p class="sub" id="tSub">用彩色三角拼块填满小动物，它就会活过来！</p>
+    </div>
+    <canvas id="hero" aria-hidden="true"></canvas>
+  </div>
+  <div class="diffs" id="diffs"><p class="boot" role="status">正在准备关卡…<br>如果长时间没有进入，请退出后重新打开</p></div>
+  <div class="foot">
+    <button class="zoo-btn" id="bZoo" type="button"></button>
+    <button class="snd" id="bSound" type="button"></button>
+  </div>
+</section>
+
+<section id="zoo" class="screen" hidden>
+  <div class="bar">
+    <button class="ib" id="bZooBack" type="button"></button>
+    <div class="lvl"><b id="tZoo"></b><span id="tZooN"></span></div>
+    <button class="ib" id="bZooShare" type="button" style="visibility:hidden"></button>
+  </div>
+  <p class="ztip" id="tZooTip"></p>
+  <div id="zgrid"></div>
+</section>
+
+<section id="levels" class="screen" hidden>
+  <div class="bar">
+    <button class="ib" id="bLvBack" type="button"></button>
+    <div class="lvl"><b id="tLvTitle"></b><span id="tLvSub"></span></div>
+    <span style="width:50px;flex:none"></span>
+  </div>
+  <div class="lvwrap"><button class="zoo-btn" id="bContinue" type="button"></button></div>
+  <div id="lgrid"></div>
+</section>
+
+<section id="game" class="screen" hidden>
+  <div class="bar">
+    <button class="ib" id="bBack" type="button"></button>
+    <div class="lvl"><b id="tLevel"></b><span id="tDiff"></span></div>
+    <button class="ib" id="bHint" type="button"></button>
+    <button class="ib" id="bReset" type="button"></button>
+  </div>
+  <div class="meter"><div class="pbar"><i id="pFill"></i></div><div class="mini" id="mini"></div></div>
+  <div class="stage" id="stage">
+    <canvas id="cv"></canvas>
+    <div id="tip" class="off"></div>
+    <div id="acts" hidden>
+      <button class="ib" id="bRot" type="button"></button>
+      <button class="ib" id="bFlip" type="button"></button>
+    </div>
+    <div id="win" hidden>
+      <div class="stars" id="stars"></div>
+      <h2 id="tWin"></h2>
+      <div id="tFig" class="fig"></div>
+      <div id="tNote" class="note"></div>
+      <div class="btns">
+        <button class="big" id="bAgain" type="button"></button>
+        <button class="big go" id="bNext" type="button"></button>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+<div id="rotate" aria-live="polite"><svg width="64" height="64" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2.5" fill="#fff" stroke="#1E3A4C" stroke-width="1.8"/><circle cx="12" cy="18.5" r="1" fill="#1E3A4C"/></svg><div id="tRotate"></div></div>
+
+<script src="./js/compat.js"></script>
+<script src="./js/platform.js"></script>
+<script src="./js/game.js"></script>
+</body>
+</html>
