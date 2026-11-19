@@ -1,0 +1,14 @@
+{
+  "name": "trianglezoo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Triangle Zoo: a portrait triangle-tile puzzle for CrazyGames",
+  "scripts": {
+    "build": "bash scripts/build.sh",
+    "start": "python3 -m http.server 8080 --directory dist",
+    "test": "node tests/smoke.js"
+  },
+  "devDependencies": {
+    "playwright": "^1.47.0"
+  }
+}
